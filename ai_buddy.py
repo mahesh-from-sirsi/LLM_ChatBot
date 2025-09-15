@@ -212,6 +212,29 @@ if st.session_state.messages[-1]["role"] == "user":
                 assistant_msg = {"role": "assistant", "content": response}
                 st.session_state.messages.append(assistant_msg)
                 save_history(st.session_state.messages)
+
+# -------------------------
+# Clear chat button
+# -------------------------
+if st.button("🧹 Clear Chat"):
+    # Reset in-memory messages
+    st.session_state.messages = [
+        {"role": "assistant", "content": "How can I help you today?"}
+    ]
+
+    # Reset memory
+    if "buffer_memory" in st.session_state:
+        st.session_state.buffer_memory.clear()
+
+    # Clear persisted history file
+    save_history(st.session_state.messages)
+
+    # Reset sync flag so rehydration can run cleanly again
+    if "memory_synced" in st.session_state:
+        del st.session_state.memory_synced
+
+    st.success("✅ Chat history cleared!")
+    st.experimental_rerun()  # Refresh the app to apply changes
 #----------------------------------------------------------------------------------------------
 # ⚡ So in summary:
 # st.session_state.messages → drives the chat UI.
