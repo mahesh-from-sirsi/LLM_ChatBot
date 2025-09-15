@@ -206,15 +206,30 @@ for message in st.session_state.messages: # Display the prior chat messages
 # ---------------------------
 # Generate Assistant Response
 # ---------------------------
-if st.session_state.messages[-1]["role"] != "assistant":
-    with st.chat_message("assistant"):
-        with st.spinner("Thinking..."):
-            response = conversation.predict(input=prompt_text)
-            st.write(response)
-            message = {"role": "assistant", "content": response}
-            st.session_state.messages.append({"role": "assistant", "content": response})
-            st.session_state.messages.append(message)
-            save_history(st.session_state.messages)
+# if st.session_state.messages[-1]["role"] != "assistant":
+#     with st.chat_message("assistant"):
+#         with st.spinner("Thinking..."):
+#             response = conversation.predict(input=prompt_text)
+#             st.write(response)
+#             message = {"role": "assistant", "content": response}
+#             # st.session_state.messages.append({"role": "assistant", "content": response})
+#             st.session_state.messages.append(message)
+#             save_history(st.session_state.messages)
+if st.session_state.messages[-1]["role"] == "user":
+    user_input = st.session_state.messages[-1]["content"]
+
+    if user_input and user_input.strip():
+        with st.chat_message("assistant"):
+            with st.spinner("Thinking..."):
+                response = conversation.predict(input=user_input)
+                st.write(response)
+
+                # Append only once
+                assistant_msg = {"role": "assistant", "content": response}
+                st.session_state.messages.append(assistant_msg)
+                save_history(st.session_state.messages)
+    else:
+        st.warning("⚠️ Please enter a valid message before sending.")
 
 #----------------------------------------------------------------------------------------------
 # ⚡ So in summary:
