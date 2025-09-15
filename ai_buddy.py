@@ -155,7 +155,7 @@ if "messages" not in st.session_state.keys():
 #------------------------------------------------------
 # Initialize Google Gemini LLM - We are not using now |
 #------------------------------------------------------
-llm = ChatGoogleGenerativeAI(model = "gemini-1.5-pro",
+llm = ChatGoogleGenerativeAI(model = "gemini-1.5-flash",
                              google_api_key=st.secrets["GOOGLE_API_KEY"])
 # (We are saving the GOOGLE_API_KEY in a streamlit settings)
 
