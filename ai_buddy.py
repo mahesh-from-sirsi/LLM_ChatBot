@@ -35,13 +35,6 @@ def save_history(messages, filename=HISTORY_FILE):
 
 # Method to read from the history file and load it back to the chatbot
 def load_history(filename=HISTORY_FILE):
-    """Load chat history from JSON file if it exists."""
-    if os.path.exists(filename):
-        with open(filename, "r") as f:
-            return json.load(f)
-    return None
-
-def load_history(filename=HISTORY_FILE):
     """Load chat history from JSON file if it exists, safely."""
     if os.path.exists(filename):
         try:
