@@ -19,7 +19,7 @@ from langchain.prompts import ChatPromptTemplate
 # Import Json to be able to store the past history in the Json File
 
 # os → for environment variables (API keys, etc.).
-# import os
+import os
 # os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
 # File to which we will store the history
