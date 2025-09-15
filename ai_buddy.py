@@ -8,7 +8,7 @@ from streamlit_chat import message
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 # ConversationChain → wraps an LLM into a chain that maintains dialogue.
-from langchain.chains import ConversationChain
+from langchain.chains import LLMChain
 
 # ConversationBufferWindowMemory → remembers a rolling window of messages (here, last k=3 turns).
 from langchain.chains.conversation.memory import ConversationBufferWindowMemory
@@ -167,7 +167,7 @@ prompt = ChatPromptTemplate.from_messages([
 # Initialize Conversation Chain                    |
 #---------------------------------------------------
 # ConversationChain wraps the LLM and automatically integrates with the memory object to maintain context.
-conversation = ConversationChain(memory=st.session_state.buffer_memory, llm=llm, prompt=prompt)
+conversation = LLMChain(memory=st.session_state.buffer_memory, llm=llm, prompt=prompt)
 
 #----------------------------------------------------------------------------------------------
 # st.chat_input() displays a chat-style text input box.
