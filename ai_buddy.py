@@ -17,10 +17,11 @@ from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from langchain.prompts import ChatPromptTemplate
 
 # Import Json to be able to store the past history in the Json File
+import json
 
 # os → for environment variables (API keys, etc.).
 import os
-import json
+
 # os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
 # File to which we will store the history
@@ -39,6 +40,16 @@ def load_history(filename=HISTORY_FILE):
         with open(filename, "r") as f:
             return json.load(f)
     return None
+
+def load_history(filename=HISTORY_FILE):
+    """Load chat history from JSON file if it exists, safely."""
+    if os.path.exists(filename):
+        try:
+            with open(filename, "r") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, OSError):
+            return []  # return empty history if file is corrupted
+    return []
 
 
 # Create user interface
