@@ -218,19 +218,17 @@ for message in st.session_state.messages: # Display the prior chat messages
 if st.session_state.messages[-1]["role"] == "user":
     user_input = st.session_state.messages[-1]["content"]
 
-    if user_input and user_input.strip():
+    if not user_input or not user_input.strip():
+        st.warning("⚠️ Please enter a valid message.")
+    else:
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 response = conversation.predict(input=user_input)
                 st.write(response)
 
-                # Append only once
                 assistant_msg = {"role": "assistant", "content": response}
                 st.session_state.messages.append(assistant_msg)
                 save_history(st.session_state.messages)
-    else:
-        st.warning("⚠️ Please enter a valid message before sending.")
-
 #----------------------------------------------------------------------------------------------
 # ⚡ So in summary:
 # st.session_state.messages → drives the chat UI.
