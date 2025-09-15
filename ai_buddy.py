@@ -163,7 +163,7 @@ if "memory_synced" not in st.session_state:
 # Initialize Google Gemini LLM - We are not using now      |
 # (We are saving the GOOGLE_API_KEY in a streamlit settings)
 #-----------------------------------------------------------
-llm = ChatGoogleGenerativeAI(model = "gemini-2.5-pro",
+llm = ChatGoogleGenerativeAI(model = "gemini-2.5-flash-lite",
                              google_api_key=st.secrets["GOOGLE_API_KEY"])
 
 
