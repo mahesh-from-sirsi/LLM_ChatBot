@@ -117,8 +117,8 @@ language_code = st.selectbox(
 #---------------------------------------------------------------------------------------------
 # buffer_memory: stores recent conversation history (upto last 3 exchanges).
 # Initialize session state variables
-if 'buffer_memory' not in st.session_state.keys():
-    st.session_state.buffer_memory = ConversationBufferWindowMemory(k=3, return_messages=True)
+# if 'buffer_memory' not in st.session_state.keys():
+#     st.session_state.buffer_memory = ConversationBufferWindowMemory(k=3, return_messages=True)
 
 # messages: keeps the full chat log for display in the UI, starting with a greeting from the assistant.
 if "messages" not in st.session_state.keys():
@@ -130,6 +130,19 @@ if "messages" not in st.session_state.keys():
         st.session_state.messages = [
             {"role": "assistant", "content": "How can I help you today?"}
         ]
+        
+# --- Sync messages into buffer memory ---
+if "buffer_memory" not in st.session_state.keys():
+    st.session_state.buffer_memory = ConversationBufferWindowMemory(k=3, return_messages=True)
+
+# Rehydrate memory with past turns (user/assistant pairs only)
+if "memory_synced" not in st.session_state:
+    for msg in st.session_state.messages:
+        if msg["role"] == "user":
+            st.session_state.buffer_memory.chat_memory.add_user_message(msg["content"])
+        elif msg["role"] == "assistant":
+            st.session_state.buffer_memory.chat_memory.add_ai_message(msg["content"])
+    st.session_state.memory_synced = True
 
 #---------------------------------------------------
 # Initialize ChatOpenAI LLM - We are not using now |
