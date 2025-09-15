@@ -46,7 +46,7 @@ def load_history(filename=HISTORY_FILE):
 
 
 # Create user interface
-st.title("🗣️ AI Buddy - Ask me anything - I am a Multilingual Chat Machine⚡ ")
+st.title("🗣️ AI Buddy - A Multilingual Chat Machine⚡ ")
 # st.subheader("㈻ Simple Chat Interface for LLMs (MasterMind: Build Fast with AI)")
 
 # -------------------------
