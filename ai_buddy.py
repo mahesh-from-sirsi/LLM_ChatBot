@@ -47,7 +47,7 @@ def load_history(filename=HISTORY_FILE):
 
 # Create user interface
 st.title("🗣️ AI Buddy - Ask me anything - I am a Multilingual Chat Machine⚡ ")
-st.subheader("㈻ Simple Chat Interface for LLMs (MasterMind: Build Fast with AI)")
+# st.subheader("㈻ Simple Chat Interface for LLMs (MasterMind: Build Fast with AI)")
 
 # Languages Supported by Gemini Model
 SUPPORTED_LANGUAGES = {
@@ -112,14 +112,6 @@ language_code = st.selectbox(
     index=list(SUPPORTED_LANGUAGES.keys()).index("en"),  # default English
 )
 
-#---------------------------------------------------------------------------------------------
-# st.session_state is a dict-like object Streamlit uses to persist values across interactions.
-#---------------------------------------------------------------------------------------------
-# buffer_memory: stores recent conversation history (upto last 3 exchanges).
-# Initialize session state variables
-# if 'buffer_memory' not in st.session_state.keys():
-#     st.session_state.buffer_memory = ConversationBufferWindowMemory(k=3, return_messages=True)
-
 # messages: keeps the full chat log for display in the UI, starting with a greeting from the assistant.
 if "messages" not in st.session_state.keys():
     # Try to load from disk
@@ -144,26 +136,13 @@ if "memory_synced" not in st.session_state:
             st.session_state.buffer_memory.chat_memory.add_ai_message(msg["content"])
     st.session_state.memory_synced = True
 
-#---------------------------------------------------
-# Initialize ChatOpenAI LLM - We are not using now |
-#---------------------------------------------------
-# llm = ChatOpenAI(model_name="gpt-4o-mini")
-
-#---------------------------------------------------
-# Initialize Llama LLM - We are not using now      |
-#---------------------------------------------------
-# llm = ChatOpenAI(model = "meta-llama/Llama-3.2-90B-Vision-Instruct-Turbo",
-#                      openai_api_key = st.secrets["TOGETHER_API_KEY"] , ## use your key
-#                      openai_api_base = "https://api.together.xyz/v1"
-#
-# )
-
-#------------------------------------------------------
-# Initialize Google Gemini LLM - We are not using now |
-#------------------------------------------------------
+#-----------------------------------------------------------
+# Initialize Google Gemini LLM - We are not using now      |
+# (We are saving the GOOGLE_API_KEY in a streamlit settings)
+#-----------------------------------------------------------
 llm = ChatGoogleGenerativeAI(model = "gemini-1.5-flash",
                              google_api_key=st.secrets["GOOGLE_API_KEY"])
-# (We are saving the GOOGLE_API_KEY in a streamlit settings)
+
 
 #--------------------------------------------------------------------------------------------------------------------
 # Dynamic system prompt with language choice
@@ -219,15 +198,6 @@ for message in st.session_state.messages: # Display the prior chat messages
 # ---------------------------
 # Generate Assistant Response
 # ---------------------------
-# if st.session_state.messages[-1]["role"] != "assistant":
-#     with st.chat_message("assistant"):
-#         with st.spinner("Thinking..."):
-#             response = conversation.predict(input=prompt_text)
-#             st.write(response)
-#             message = {"role": "assistant", "content": response}
-#             # st.session_state.messages.append({"role": "assistant", "content": response})
-#             st.session_state.messages.append(message)
-#             save_history(st.session_state.messages)
 if st.session_state.messages[-1]["role"] == "user":
     user_input = st.session_state.messages[-1]["content"]
 
